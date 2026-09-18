@@ -1,0 +1,297 @@
+.page-head {
+  max-width: 760px;
+  margin-bottom: 40px;
+}
+
+.page-head h1 { margin: 12px 0 14px; }
+
+.page-head p {
+  color: var(--text-soft);
+  margin: 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Two column layout: form left, sticky estimate right                        */
+/* -------------------------------------------------------------------------- */
+.commission-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 32px;
+  align-items: start;
+}
+
+.form-column {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  min-width: 0;
+}
+
+.form-block { padding: 26px; }
+
+/* -------------------------------------------------------------------------- */
+/* Option rows (radio choices)                                                */
+/* -------------------------------------------------------------------------- */
+.option-list {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.choice-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.choice-label { display: block; }
+
+/* Style chips under the style dropdown */
+.style-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.chip {
+  padding: 8px 16px;
+  border: 1px solid var(--nyx-line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-soft);
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s var(--ease);
+}
+
+.chip:hover { color: var(--nyx-white); border-color: rgba(225, 29, 56, 0.55); }
+
+.chip.active {
+  background: linear-gradient(135deg, var(--nyx-crimson) 0%, var(--nyx-crimson-deep) 100%);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Artist preview inside the form                                             */
+/* -------------------------------------------------------------------------- */
+.artist-preview {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid var(--nyx-line);
+  border-radius: var(--radius);
+  background: rgba(0, 0, 0, 0.32);
+  animation: fadeIn 0.35s var(--ease) both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.artist-preview img {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(225, 29, 56, 0.45);
+  flex: 0 0 auto;
+}
+
+.artist-preview-body { min-width: 0; }
+
+.artist-preview-name {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  margin-bottom: 3px;
+}
+
+.artist-preview-meta {
+  display: block;
+  font-size: 0.79rem;
+  color: var(--nyx-gray-dim);
+  margin-bottom: 9px;
+}
+
+.artist-preview-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* File input                                                                 */
+/* -------------------------------------------------------------------------- */
+.file-input { padding: 10px 12px; }
+
+.file-input::file-selector-button {
+  margin-right: 12px;
+  padding: 7px 14px;
+  border: 1px solid var(--nyx-line);
+  border-radius: var(--radius-sm);
+  background: rgba(168, 15, 38, 0.16);
+  color: var(--nyx-white);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 0.25s var(--ease);
+}
+
+.file-input::file-selector-button:hover { background: rgba(225, 29, 56, 0.3); }
+
+.file-chip {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(168, 15, 38, 0.16);
+  border: 1px solid rgba(225, 29, 56, 0.4);
+  font-size: 0.78rem;
+  color: #ff9aa9;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Sticky estimate panel                                                      */
+/* -------------------------------------------------------------------------- */
+.estimate-column { position: sticky; top: 96px; }
+
+.estimate {
+  padding: 28px;
+  border-color: rgba(225, 29, 56, 0.38);
+  background:
+    radial-gradient(420px 200px at 50% 0%, rgba(168, 15, 38, 0.2), transparent 70%),
+    linear-gradient(180deg, var(--nyx-surface-2) 0%, var(--nyx-surface) 100%);
+}
+
+.estimate-title { margin: 8px 0 18px; }
+
+.estimate-total {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.estimate-currency {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--nyx-crimson-bright);
+  margin-top: 8px;
+}
+
+.estimate-amount {
+  font-family: var(--font-display);
+  font-size: 3.4rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--nyx-white);
+  text-shadow: 0 0 34px rgba(225, 29, 56, 0.4);
+}
+
+.estimate-note {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--nyx-gray-dim);
+  margin: 0 0 22px;
+}
+
+.estimate-lines { margin-top: 18px; }
+
+.estimate-summary {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--nyx-line);
+}
+
+.estimate-fine {
+  margin: 16px 0 0;
+  font-size: 0.75rem;
+  line-height: 1.6;
+  color: var(--nyx-gray-dim);
+  text-align: center;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Confirmation panel                                                         */
+/* -------------------------------------------------------------------------- */
+.confirm {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 44px;
+  text-align: center;
+  border-color: rgba(80, 200, 130, 0.4);
+  background:
+    radial-gradient(500px 240px at 50% 0%, rgba(40, 150, 90, 0.14), transparent 70%),
+    linear-gradient(180deg, var(--nyx-surface-2) 0%, var(--nyx-surface) 100%);
+  animation: fadeIn 0.5s var(--ease) both;
+}
+
+.confirm-mark {
+  display: grid;
+  place-items: center;
+  width: 68px;
+  height: 68px;
+  margin: 0 auto 22px;
+  border-radius: 50%;
+  background: rgba(40, 150, 90, 0.18);
+  border: 1px solid rgba(80, 200, 130, 0.5);
+  color: #6ee39f;
+}
+
+.confirm h1 { font-size: 1.9rem; margin: 12px 0 16px; }
+
+.confirm-lead {
+  color: var(--text-soft);
+  margin-bottom: 30px;
+}
+
+.confirm-lead strong { color: var(--nyx-crimson-bright); }
+
+.confirm-grid {
+  text-align: left;
+  padding: 22px;
+  border: 1px solid var(--nyx-line);
+  border-radius: var(--radius);
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.confirm-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 22px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(225, 29, 56, 0.4);
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+}
+
+.confirm-total strong { color: var(--nyx-crimson-bright); font-size: 1.7rem; }
+
+.confirm-actions {
+  display: flex;
+  gap: 13px;
+  justify-content: center;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Responsive                                                                 */
+/* -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .commission-layout { grid-template-columns: 1fr; }
+
+  /* On narrow screens the estimate sits above the form instead of sticking. */
+  .estimate-column { position: static; order: -1; }
+}
+
+@media (max-width: 560px) {
+  .confirm { padding: 30px 22px; }
+  .confirm-actions .btn { width: 100%; }
+}

@@ -1,0 +1,136 @@
+.footer {
+  position: relative;
+  margin-top: 40px;
+  padding: 62px 0 30px;
+  background: linear-gradient(180deg, rgba(16, 16, 20, 0) 0%, rgba(10, 10, 13, 0.95) 55%);
+  border-top: 1px solid var(--nyx-line);
+}
+
+/* Crimson hairline along the top edge of the footer. */
+.footer::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(225, 29, 56, 0.5), transparent);
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+  padding-bottom: 44px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Brand                                                                      */
+/* -------------------------------------------------------------------------- */
+.brand-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  color: var(--nyx-crimson-bright);
+  background: rgba(168, 15, 38, 0.18);
+  border: 1px solid rgba(225, 29, 56, 0.42);
+}
+
+.brand-text {
+  font-family: var(--font-display);
+  font-size: 1.18rem;
+  font-weight: 700;
+}
+
+.brand-accent { color: var(--nyx-crimson-bright); }
+
+.footer-pitch {
+  max-width: 380px;
+  color: var(--text-soft);
+  font-size: 0.9rem;
+  line-height: 1.75;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Link columns                                                               */
+/* -------------------------------------------------------------------------- */
+.footer-col h4 {
+  font-family: var(--font-body);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--nyx-crimson-bright);
+  margin-bottom: 18px;
+}
+
+.footer-col ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-col li { margin-bottom: 11px; }
+
+.footer-col a {
+  position: relative;
+  font-size: 0.9rem;
+  color: var(--text-soft);
+  padding-left: 0;
+  transition: color 0.25s var(--ease), padding-left 0.25s var(--ease);
+}
+
+/* Links slide slightly right on hover for a subtle, premium touch. */
+.footer-col a:hover {
+  color: var(--nyx-white);
+  padding-left: 6px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Bottom bar                                                                 */
+/* -------------------------------------------------------------------------- */
+.footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-top: 24px;
+}
+
+.copyright,
+.footer-note {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--nyx-gray);
+}
+
+.footer-note {
+  padding: 6px 14px;
+  border: 1px solid var(--nyx-line);
+  border-radius: 999px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Responsive                                                                 */
+/* -------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .footer-top {
+    grid-template-columns: 1fr 1fr;
+    gap: 34px;
+  }
+}
+
+@media (max-width: 560px) {
+  .footer-top { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+}

@@ -1,0 +1,145 @@
+<div class="page">
+  <div class="container">
+
+    <header class="cart-head">
+      <span class="eyebrow">Your Selection</span>
+      <h1>Shopping Cart</h1>
+    </header>
+
+    <!-- ==================================================================
+         THE CART (only when it has something in it)
+         ================================================================== -->
+    <ng-container *ngIf="items$ | async as items">
+
+      <div class="cart-layout" *ngIf="items.length > 0; else emptyCart">
+
+        <!-- Left: the line items -->
+        <div class="cart-items">
+
+          <div class="cart-items-head">
+            <span>{{ items.length }} {{ items.length === 1 ? 'item' : 'items' }} in your cart</span>
+            <button type="button" class="btn btn-ghost btn-sm" (click)="clearCart()">Empty Cart</button>
+          </div>
+
+          <article class="cart-item" *ngFor="let item of items">
+
+            <!-- Thumbnail -->
+            <a class="cart-thumb" [routerLink]="['/artwork', item.artwork.id]">
+              <img [src]="item.artwork.image" [alt]="item.artwork.title" loading="lazy" />
+            </a>
+
+            <!-- Details -->
+            <div class="cart-info">
+              <h3 class="cart-title">
+                <a [routerLink]="['/artwork', item.artwork.id]">{{ item.artwork.title }}</a>
+              </h3>
+              <p class="cart-artist">by {{ item.artwork.artistName }}</p>
+              <div class="cart-badges">
+                <span class="badge badge-muted">{{ item.artwork.category }}</span>
+                <span class="badge badge-muted">{{ item.artwork.style }}</span>
+              </div>
+              <span class="cart-unit">${{ item.artwork.price }} each</span>
+            </div>
+
+            <!-- Quantity and line total -->
+            <div class="cart-controls">
+
+              <div class="qty">
+                <button
+                  type="button"
+                  class="qty-btn"
+                  (click)="decrease(item)"
+                  [disabled]="item.quantity === 1"
+                  aria-label="Decrease quantity"
+                >&minus;</button>
+
+                <input
+                  class="qty-input"
+                  type="number"
+                  min="1"
+                  max="99"
+                  [value]="item.quantity"
+                  (change)="onQuantityChange(item, $any($event.target).value)"
+                  aria-label="Quantity"
+                />
+
+                <button
+                  type="button"
+                  class="qty-btn"
+                  (click)="increase(item)"
+                  [disabled]="item.quantity >= 99"
+                  aria-label="Increase quantity"
+                >+</button>
+              </div>
+
+              <span class="cart-line-total">${{ item.artwork.price * item.quantity }}</span>
+
+              <button type="button" class="cart-remove" (click)="remove(item)" aria-label="Remove item">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9">
+                  <path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14" />
+                </svg>
+                Remove
+              </button>
+
+            </div>
+
+          </article>
+
+          <a routerLink="/browse" class="continue-link">&larr; Continue browsing artwork</a>
+
+        </div>
+
+        <!-- Right: sticky order summary -->
+        <aside class="cart-summary">
+          <div class="panel summary-panel">
+
+            <h3 class="panel-title">Order Summary</h3>
+
+            <div class="summary-row">
+              <span class="label">Subtotal</span>
+              <span class="value">${{ totals.subtotal }}</span>
+            </div>
+
+            <div class="summary-row">
+              <span class="label">Service fee (5%)</span>
+              <span class="value">${{ totals.commissionFee }}</span>
+            </div>
+
+            <div class="summary-row">
+              <span class="label">Estimated tax (8%)</span>
+              <span class="value">${{ totals.tax }}</span>
+            </div>
+
+            <div class="summary-total">
+              <span>Total</span>
+              <span class="value">${{ totals.total }}</span>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-lg btn-block mt-3" (click)="goToCheckout()">
+              Proceed to Checkout
+            </button>
+
+            <p class="summary-note">
+              Digital goods only. Taxes are estimated and no real payment is taken on this site.
+            </p>
+
+          </div>
+        </aside>
+
+      </div>
+
+      <!-- ==================================================================
+           EMPTY STATE
+           ================================================================== -->
+      <ng-template #emptyCart>
+        <div class="empty-state">
+          <h3>Your cart is empty</h3>
+          <p>Nothing here yet. Find a piece you want to live with.</p>
+          <a routerLink="/browse" class="btn btn-primary">Browse Artwork</a>
+        </div>
+      </ng-template>
+
+    </ng-container>
+
+  </div>
+</div>

@@ -1,0 +1,122 @@
+<div class="page">
+  <div class="container">
+
+    <header class="artists-head">
+      <span class="eyebrow">The Collective</span>
+      <h1>Our Artists</h1>
+      <p>
+        {{ allArtists.length }} independent artists taking commissions. Every one of them has a
+        distinct style, so read the bios before you decide.
+      </p>
+    </header>
+
+    <!-- Filter and sort row -->
+    <section class="artist-controls panel">
+
+      <div class="control-block">
+        <span class="form-label">Filter by Specialty</span>
+        <div class="chip-row">
+          <button
+            type="button"
+            class="chip"
+            [class.active]="selectedSpecialty === ''"
+            (click)="selectSpecialty('')"
+          >
+            All
+          </button>
+          <button
+            type="button"
+            class="chip"
+            *ngFor="let specialty of specialties"
+            [class.active]="selectedSpecialty === specialty"
+            (click)="selectSpecialty(specialty)"
+          >
+            {{ specialty }}
+          </button>
+        </div>
+      </div>
+
+      <div class="control-block control-sort">
+        <label class="form-label" for="artistSort">Sort By</label>
+        <select
+          id="artistSort"
+          class="form-control"
+          [(ngModel)]="sortBy"
+          (ngModelChange)="applySorting()"
+        >
+          <option *ngFor="let option of sortOptions" [value]="option.value">{{ option.label }}</option>
+        </select>
+      </div>
+
+    </section>
+
+    <!-- Artists -->
+    <div class="grid grid-3 artist-grid">
+      <article class="artist-card" *ngFor="let artist of visibleArtists">
+
+        <!-- Header strip with the avatar -->
+        <div class="artist-card-top">
+          <img class="artist-avatar" [src]="artist.avatar" [alt]="artist.name" loading="lazy" />
+          <span class="artist-rating">
+            <span class="rating-star">&#9733;</span>
+            {{ artist.rating.toFixed(1) }}
+            <span class="rating-count">({{ artist.reviews }})</span>
+          </span>
+        </div>
+
+        <!-- Body -->
+        <div class="artist-card-body">
+          <h3 class="artist-name">{{ artist.name }}</h3>
+          <p class="artist-location">{{ artist.location }}</p>
+          <p class="artist-bio">{{ artist.bio }}</p>
+
+          <!-- Specialties -->
+          <div class="artist-tags">
+            <span
+              class="badge"
+              [class.badge-muted]="!artist.specialties.includes(selectedSpecialty)"
+              *ngFor="let tag of artist.specialties"
+            >{{ tag }}</span>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="artist-stats">
+          <div class="artist-stat">
+            <span class="artist-stat-value">{{ artist.completedCommissions }}</span>
+            <span class="artist-stat-label">Commissions<br />completed</span>
+          </div>
+          <div class="artist-stat">
+            <span class="artist-stat-value">${{ artist.startingPrice }}</span>
+            <span class="artist-stat-label">Starting<br />price</span>
+          </div>
+          <div class="artist-stat">
+            <span class="artist-stat-value">{{ artist.responseTime.replace('Under ', '') }}</span>
+            <span class="artist-stat-label">Typical<br />reply</span>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="artist-card-foot">
+          <a
+            class="btn btn-primary btn-block"
+            routerLink="/commissions"
+            [queryParams]="{ artist: artist.id }"
+          >Commission This Artist</a>
+          <a class="btn btn-ghost btn-block" routerLink="/browse">See Their Work</a>
+        </div>
+
+        <span class="artist-since">On CommisioNyx since {{ artist.joinedYear }}</span>
+
+      </article>
+    </div>
+
+    <!-- Empty state -->
+    <div class="empty-state" *ngIf="visibleArtists.length === 0">
+      <h3>No artist works in that specialty yet</h3>
+      <p>Try another specialty, or clear the filter to see everyone.</p>
+      <button type="button" class="btn btn-primary" (click)="selectSpecialty('')">Show All Artists</button>
+    </div>
+
+  </div>
+</div>

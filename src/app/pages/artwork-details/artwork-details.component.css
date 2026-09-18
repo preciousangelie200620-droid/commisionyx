@@ -1,0 +1,270 @@
+/* Two column layout: image left, information right. */
+.detail-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 52px;
+  align-items: start;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Left column: the artwork                                                    */
+/* -------------------------------------------------------------------------- */
+.media-frame {
+  position: relative;
+  border: 1px solid var(--nyx-line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: #0b0b0e;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+}
+
+/* Soft crimson glow behind the piece. */
+.media-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 90px rgba(0, 0, 0, 0.6);
+}
+
+.media-frame img {
+  width: 100%;
+  display: block;
+  transition: transform 0.8s var(--ease);
+}
+
+.media-frame:hover img { transform: scale(1.03); }
+
+.media-meta {
+  list-style: none;
+  margin: 22px 0 0;
+  padding: 0;
+  border: 1px solid var(--nyx-line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.media-meta li {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 18px;
+  font-size: 0.87rem;
+  border-bottom: 1px solid var(--nyx-line);
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.media-meta li:last-child { border-bottom: 0; }
+
+.meta-label { color: var(--nyx-gray-dim); }
+.meta-value { text-align: right; font-weight: 500; }
+
+/* -------------------------------------------------------------------------- */
+/* Right column: the information                                               */
+/* -------------------------------------------------------------------------- */
+.detail-tags-top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-bottom: 18px;
+}
+
+.detail-title {
+  font-size: clamp(1.9rem, 3.6vw, 2.8rem);
+  margin-bottom: 18px;
+  line-height: 1.14;
+}
+
+.detail-artist {
+  display: inline-flex;
+  align-items: center;
+  gap: 13px;
+  padding: 11px 18px 11px 11px;
+  border: 1px solid var(--nyx-line);
+  border-radius: 999px;
+  margin-bottom: 20px;
+  transition: border-color 0.3s var(--ease), background 0.3s var(--ease);
+}
+
+.detail-artist:hover {
+  border-color: rgba(225, 29, 56, 0.55);
+  background: rgba(168, 15, 38, 0.1);
+}
+
+.detail-artist img {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(225, 29, 56, 0.45);
+}
+
+.detail-artist-text { display: flex; flex-direction: column; line-height: 1.35; }
+.detail-artist-name { font-weight: 600; font-size: 0.95rem; }
+.detail-artist-sub { font-size: 0.78rem; color: var(--nyx-gray-dim); }
+
+.detail-rating {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 20px;
+  font-size: 0.92rem;
+}
+
+.stars { display: inline-flex; gap: 3px; }
+
+.star { color: #3a3a44; font-size: 1.02rem; }
+
+.star.filled {
+  color: #e5b23c;
+  text-shadow: 0 0 9px rgba(229, 178, 60, 0.45);
+}
+
+.detail-description {
+  font-size: 1rem;
+  line-height: 1.85;
+  color: #cfccd6;
+  margin-bottom: 20px;
+}
+
+.detail-tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 11px;
+  margin-bottom: 10px;
+}
+
+.detail-tag {
+  font-size: 0.82rem;
+  color: var(--nyx-crimson-bright);
+  transition: opacity 0.25s var(--ease);
+}
+
+.detail-tag:hover { opacity: 0.75; }
+
+/* -------------------------------------------------------------------------- */
+/* Buy box                                                                    */
+/* -------------------------------------------------------------------------- */
+.buy-box {
+  margin-top: 26px;
+  padding: 26px;
+  border: 1px solid rgba(225, 29, 56, 0.35);
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(400px 180px at 0% 0%, rgba(168, 15, 38, 0.16), transparent 70%),
+    rgba(0, 0, 0, 0.4);
+}
+
+.buy-price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.buy-label {
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--nyx-gray-dim);
+  margin-bottom: 3px;
+}
+
+.buy-price {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--nyx-crimson-bright);
+  line-height: 1;
+}
+
+/* Quantity stepper */
+.qty {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--nyx-line);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.qty-btn {
+  width: 42px;
+  height: 42px;
+  border: 0;
+  background: none;
+  color: var(--nyx-white);
+  font-size: 1.15rem;
+  cursor: pointer;
+  transition: background 0.25s var(--ease), color 0.25s var(--ease);
+}
+
+.qty-btn:hover:not(:disabled) {
+  background: rgba(225, 29, 56, 0.2);
+  color: var(--nyx-crimson-bright);
+}
+
+.qty-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+.qty-value {
+  min-width: 46px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1rem;
+  border-left: 1px solid var(--nyx-line);
+  border-right: 1px solid var(--nyx-line);
+  line-height: 42px;
+}
+
+.buy-line {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px dashed var(--nyx-line);
+  font-size: 0.9rem;
+  color: var(--text-soft);
+}
+
+.buy-line strong { color: var(--nyx-white); font-size: 1.05rem; }
+
+.buy-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 13px;
+  margin-top: 22px;
+}
+
+.buy-note {
+  margin: 18px 0 0;
+  font-size: 0.8rem;
+  color: var(--nyx-gray-dim);
+  line-height: 1.65;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Related artwork                                                            */
+/* -------------------------------------------------------------------------- */
+.related {
+  margin-top: 86px;
+  padding-top: 56px;
+  border-top: 1px solid var(--nyx-line);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Responsive                                                                 */
+/* -------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .detail-layout {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .buy-actions { grid-template-columns: 1fr; }
+  .qty { width: 100%; justify-content: space-between; }
+}

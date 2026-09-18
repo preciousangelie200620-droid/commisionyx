@@ -1,0 +1,345 @@
+<div class="page">
+  <div class="container">
+
+    <!-- ==================================================================
+         RECEIPT (after the order is placed)
+         ================================================================== -->
+    <section class="receipt panel" *ngIf="orderPlaced">
+
+      <div class="receipt-mark">
+        <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M20 6 9 17l-5-5" />
+        </svg>
+      </div>
+
+      <span class="eyebrow">Order Confirmed</span>
+      <h1>Thank You For Your Order</h1>
+      <p class="receipt-lead">
+        A confirmation has been sent to your email. Your download links are ready immediately.
+      </p>
+
+      <!-- Order meta -->
+      <div class="receipt-meta">
+        <div class="receipt-meta-item">
+          <span class="receipt-meta-label">Order number</span>
+          <span class="receipt-meta-value">{{ orderNumber }}</span>
+        </div>
+        <div class="receipt-meta-item">
+          <span class="receipt-meta-label">Placed on</span>
+          <span class="receipt-meta-value">{{ orderDate }}</span>
+        </div>
+        <div class="receipt-meta-item">
+          <span class="receipt-meta-label">Total paid</span>
+          <span class="receipt-meta-value receipt-meta-total">${{ purchasedTotal }}</span>
+        </div>
+      </div>
+
+      <!-- Purchased items -->
+      <div class="receipt-items">
+        <div class="receipt-item" *ngFor="let item of purchasedItems">
+          <img [src]="item.artwork.image" [alt]="item.artwork.title" />
+          <div class="receipt-item-body">
+            <span class="receipt-item-title">{{ item.artwork.title }}</span>
+            <span class="receipt-item-sub">by {{ item.artwork.artistName }}</span>
+          </div>
+          <span class="receipt-item-qty">x{{ item.quantity }}</span>
+          <span class="receipt-item-price">${{ item.artwork.price * item.quantity }}</span>
+        </div>
+      </div>
+
+      <div class="receipt-actions">
+        <a routerLink="/browse" class="btn btn-primary">Continue Browsing</a>
+        <a routerLink="/" class="btn btn-outline">Back to Home</a>
+      </div>
+
+      <p class="receipt-note">This is a simulated order. No payment was processed.</p>
+
+    </section>
+
+    <!-- ==================================================================
+         CHECKOUT FORM
+         ================================================================== -->
+    <ng-container *ngIf="!orderPlaced">
+
+      <header class="checkout-head">
+        <span class="eyebrow">Almost There</span>
+        <h1>Checkout</h1>
+      </header>
+
+      <!-- Nothing in the cart -->
+      <div class="empty-state" *ngIf="items.length === 0">
+        <h3>Your cart is empty</h3>
+        <p>There is nothing to check out yet.</p>
+        <a routerLink="/browse" class="btn btn-primary">Browse Artwork</a>
+      </div>
+
+      <!-- The form and summary -->
+      <form class="checkout-layout" *ngIf="items.length > 0" [formGroup]="checkoutForm" (ngSubmit)="onPlaceOrder()">
+
+        <!-- LEFT: details -->
+        <div class="checkout-main">
+
+          <!-- Customer information -->
+          <section class="panel form-block">
+            <h3 class="panel-title">Customer Information</h3>
+
+            <div class="form-group">
+              <label class="form-label" for="fullName">Full Name</label>
+              <input
+                id="fullName"
+                type="text"
+                class="form-control"
+                [class.is-invalid]="isInvalid('fullName')"
+                formControlName="fullName"
+                placeholder="Alex Monroe"
+              />
+              <span class="form-error" *ngIf="isInvalid('fullName')">
+                Please enter your full name (at least 3 characters).
+              </span>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="email">Email Address</label>
+                <input
+                  id="email"
+                  type="email"
+                  class="form-control"
+                  [class.is-invalid]="isInvalid('email')"
+                  formControlName="email"
+                  placeholder="you@example.com"
+                />
+                <span class="form-error" *ngIf="isInvalid('email')">
+                  Please enter a valid email address.
+                </span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="phone">Phone Number</label>
+                <input
+                  id="phone"
+                  type="tel"
+                  class="form-control"
+                  [class.is-invalid]="isInvalid('phone')"
+                  formControlName="phone"
+                  placeholder="+1 555 0100"
+                />
+                <span class="form-error" *ngIf="isInvalid('phone')">
+                  Please enter a valid phone number.
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="address">Street Address</label>
+              <input
+                id="address"
+                type="text"
+                class="form-control"
+                [class.is-invalid]="isInvalid('address')"
+                formControlName="address"
+                placeholder="14 Ashgrove Lane, Apt 3"
+              />
+              <span class="form-error" *ngIf="isInvalid('address')">
+                Please enter your street address.
+              </span>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="city">City</label>
+                <input
+                  id="city"
+                  type="text"
+                  class="form-control"
+                  [class.is-invalid]="isInvalid('city')"
+                  formControlName="city"
+                  placeholder="New Orleans"
+                />
+                <span class="form-error" *ngIf="isInvalid('city')">City is required.</span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="postalCode">Postal Code</label>
+                <input
+                  id="postalCode"
+                  type="text"
+                  class="form-control"
+                  [class.is-invalid]="isInvalid('postalCode')"
+                  formControlName="postalCode"
+                  placeholder="70112"
+                />
+                <span class="form-error" *ngIf="isInvalid('postalCode')">
+                  Please enter a valid postal code.
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group mb-0">
+              <label class="form-label" for="country">Country</label>
+              <input
+                id="country"
+                type="text"
+                class="form-control"
+                [class.is-invalid]="isInvalid('country')"
+                formControlName="country"
+                placeholder="United States"
+              />
+              <span class="form-error" *ngIf="isInvalid('country')">Country is required.</span>
+            </div>
+          </section>
+
+          <!-- Payment -->
+          <section class="panel form-block">
+            <h3 class="panel-title">Payment Method</h3>
+
+            <div class="option-list">
+              <label
+                class="choice"
+                *ngFor="let method of paymentMethods"
+                [class.selected]="checkoutForm.value.paymentMethod === method.id"
+              >
+                <input type="radio" formControlName="paymentMethod" [value]="method.id" />
+                <span class="choice-body">
+                  <span class="choice-label">{{ method.label }}</span>
+                  <span class="choice-desc">{{ method.description }}</span>
+                </span>
+              </label>
+            </div>
+
+            <!-- Card details, only while paying by card -->
+            <div class="card-fields" *ngIf="isCardPayment">
+              <div class="form-group">
+                <label class="form-label" for="cardNumber">Card Number</label>
+                <input
+                  id="cardNumber"
+                  type="text"
+                  class="form-control"
+                  [class.is-invalid]="isInvalid('cardNumber')"
+                  formControlName="cardNumber"
+                  placeholder="4242 4242 4242 4242"
+                />
+                <span class="form-error" *ngIf="isInvalid('cardNumber')">
+                  Enter a card number between 12 and 23 characters.
+                </span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="cardName">Name on Card</label>
+                <input
+                  id="cardName"
+                  type="text"
+                  class="form-control"
+                  [class.is-invalid]="isInvalid('cardName')"
+                  formControlName="cardName"
+                  placeholder="ALEX MONROE"
+                />
+                <span class="form-error" *ngIf="isInvalid('cardName')">Name on card is required.</span>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="cardExpiry">Expiry (MM/YY)</label>
+                  <input
+                    id="cardExpiry"
+                    type="text"
+                    class="form-control"
+                    [class.is-invalid]="isInvalid('cardExpiry')"
+                    formControlName="cardExpiry"
+                    placeholder="08/28"
+                  />
+                  <span class="form-error" *ngIf="isInvalid('cardExpiry')">
+                    Use the MM/YY format.
+                  </span>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="cardCvc">CVC</label>
+                  <input
+                    id="cardCvc"
+                    type="text"
+                    class="form-control"
+                    [class.is-invalid]="isInvalid('cardCvc')"
+                    formControlName="cardCvc"
+                    placeholder="123"
+                  />
+                  <span class="form-error" *ngIf="isInvalid('cardCvc')">
+                    3 or 4 digits.
+                  </span>
+                </div>
+              </div>
+
+              <div class="alert">
+                This is a school project. Use any numbers you like &mdash; nothing is sent anywhere
+                and no payment is taken.
+              </div>
+            </div>
+
+            <div class="form-group mb-0">
+              <label class="form-label" for="notes">Order Notes (optional)</label>
+              <textarea
+                id="notes"
+                class="form-control"
+                formControlName="notes"
+                rows="3"
+                placeholder="Anything the artist should know about this order?"
+              ></textarea>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- RIGHT: order summary -->
+        <aside class="checkout-summary">
+          <div class="panel summary-panel">
+
+            <h3 class="panel-title">Order Summary</h3>
+
+            <!-- Items -->
+            <div class="summary-item" *ngFor="let item of items">
+              <img [src]="item.artwork.image" [alt]="item.artwork.title" />
+              <div class="summary-item-body">
+                <span class="summary-item-title">{{ item.artwork.title }}</span>
+                <span class="summary-item-sub">by {{ item.artwork.artistName }} &bull; x{{ item.quantity }}</span>
+              </div>
+              <span class="summary-item-price">${{ item.artwork.price * item.quantity }}</span>
+            </div>
+
+            <div class="summary-divider"></div>
+
+            <!-- Money -->
+            <div class="summary-row">
+              <span class="label">Subtotal</span>
+              <span class="value">${{ totals.subtotal }}</span>
+            </div>
+
+            <div class="summary-row">
+              <span class="label">Service fee (5%)</span>
+              <span class="value">${{ totals.commissionFee }}</span>
+            </div>
+
+            <div class="summary-row">
+              <span class="label">Estimated tax (8%)</span>
+              <span class="value">${{ totals.tax }}</span>
+            </div>
+
+            <div class="summary-total">
+              <span>Total</span>
+              <span class="value">${{ totals.total }}</span>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg btn-block mt-3">
+              Place Order &mdash; ${{ totals.total }}
+            </button>
+
+            <a routerLink="/cart" class="back-link">&larr; Back to cart</a>
+
+          </div>
+        </aside>
+
+      </form>
+
+    </ng-container>
+
+  </div>
+</div>

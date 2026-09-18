@@ -1,0 +1,226 @@
+<div class="page auth-page">
+  <div class="container auth-container">
+
+    <!-- ==================================================================
+         LEFT: the pitch
+         ================================================================== -->
+    <aside class="auth-aside">
+      <span class="eyebrow">Your Account</span>
+      <h1>Sign In To CommisioNyx</h1>
+      <p class="auth-aside-lead">
+        An account keeps your cart between visits, tracks your commission requests and stores
+        every file you have bought.
+      </p>
+
+      <ul class="auth-benefits">
+        <li>
+          <span class="benefit-mark" aria-hidden="true">&#9670;</span>
+          <span>
+            <strong>Cart saved automatically</strong>
+            <span class="benefit-note">Close the tab and come back - your selection is still there.</span>
+          </span>
+        </li>
+        <li>
+          <span class="benefit-mark" aria-hidden="true">&#9670;</span>
+          <span>
+            <strong>Track commission requests</strong>
+            <span class="benefit-note">See sketches, revisions and delivery dates in one place.</span>
+          </span>
+        </li>
+        <li>
+          <span class="benefit-mark" aria-hidden="true">&#9670;</span>
+          <span>
+            <strong>Re-download anything you buy</strong>
+            <span class="benefit-note">Every purchase stays in your library at full resolution.</span>
+          </span>
+        </li>
+      </ul>
+
+      <div class="auth-demo-note">
+        <strong>Demo notice.</strong>
+        Accounts on this project are stored in your own browser, not on a server. Use any email
+        and password you like &mdash; nothing is sent anywhere.
+      </div>
+    </aside>
+
+    <!-- ==================================================================
+         RIGHT: the forms
+         ================================================================== -->
+    <div class="auth-card panel">
+
+      <!-- Mode switch -->
+      <div class="auth-switch">
+        <button
+          type="button"
+          class="switch-btn"
+          [class.active]="mode === 'login'"
+          (click)="showLogin()"
+        >Sign In</button>
+        <button
+          type="button"
+          class="switch-btn"
+          [class.active]="mode === 'register'"
+          (click)="showRegister()"
+        >Create Account</button>
+      </div>
+
+      <p class="alert alert-error" *ngIf="errorMessage">{{ errorMessage }}</p>
+      <p class="alert alert-success" *ngIf="successMessage">{{ successMessage }}</p>
+
+      <!-- ==============================================================
+           SIGN IN
+           ============================================================== -->
+      <form *ngIf="mode === 'login'" [formGroup]="loginForm" (ngSubmit)="onLogin()" novalidate>
+
+        <div class="form-group">
+          <label class="form-label" for="loginEmail">Email Address</label>
+          <input
+            id="loginEmail"
+            type="email"
+            class="form-control"
+            [class.is-invalid]="isInvalid(loginForm, 'email')"
+            formControlName="email"
+            placeholder="you@example.com"
+            autocomplete="email"
+          />
+          <span class="form-error" *ngIf="isInvalid(loginForm, 'email')">
+            Please enter a valid email address.
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="loginPassword">Password</label>
+          <input
+            id="loginPassword"
+            type="password"
+            class="form-control"
+            [class.is-invalid]="isInvalid(loginForm, 'password')"
+            formControlName="password"
+            placeholder="At least 6 characters"
+            autocomplete="current-password"
+          />
+          <span class="form-error" *ngIf="isInvalid(loginForm, 'password')">
+            Your password must be at least 6 characters.
+          </span>
+        </div>
+
+        <label class="checkbox-row">
+          <input type="checkbox" formControlName="remember" />
+          <span>Keep me signed in on this device</span>
+        </label>
+
+        <button type="submit" class="btn btn-primary btn-lg btn-block mt-3">Sign In</button>
+
+        <p class="auth-foot">
+          No account yet?
+          <button type="button" class="link-btn" (click)="showRegister()">Create one in a few seconds</button>
+        </p>
+
+      </form>
+
+      <!-- ==============================================================
+           CREATE ACCOUNT
+           ============================================================== -->
+      <form *ngIf="mode === 'register'" [formGroup]="registerForm" (ngSubmit)="onRegister()" novalidate>
+
+        <div class="form-group">
+          <label class="form-label" for="regName">Full Name</label>
+          <input
+            id="regName"
+            type="text"
+            class="form-control"
+            [class.is-invalid]="isInvalid(registerForm, 'name')"
+            formControlName="name"
+            placeholder="Alex Monroe"
+          />
+          <span class="form-error" *ngIf="isInvalid(registerForm, 'name')">
+            Please enter your name (at least 3 characters).
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="regEmail">Email Address</label>
+          <input
+            id="regEmail"
+            type="email"
+            class="form-control"
+            [class.is-invalid]="isInvalid(registerForm, 'email')"
+            formControlName="email"
+            placeholder="you@example.com"
+          />
+          <span class="form-error" *ngIf="isInvalid(registerForm, 'email')">
+            Please enter a valid email address.
+          </span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="regPassword">Password</label>
+            <input
+              id="regPassword"
+              type="password"
+              class="form-control"
+              [class.is-invalid]="isInvalid(registerForm, 'password')"
+              formControlName="password"
+              placeholder="At least 6 characters"
+            />
+            <span class="form-error" *ngIf="isInvalid(registerForm, 'password')">
+              Minimum 6 characters.
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="regConfirm">Confirm Password</label>
+            <input
+              id="regConfirm"
+              type="password"
+              class="form-control"
+              [class.is-invalid]="isInvalid(registerForm, 'confirmPassword') || (registerForm.errors && registerForm.get('confirmPassword')?.touched)"
+              formControlName="confirmPassword"
+              placeholder="Type it again"
+            />
+            <span class="form-error" *ngIf="isInvalid(registerForm, 'confirmPassword')">
+              Please confirm your password.
+            </span>
+          </div>
+        </div>
+
+        <!-- Cross-field error from the group validator -->
+        <p
+          class="form-error group-error"
+          *ngIf="registerForm.errors?.['passwordsDoNotMatch'] && registerForm.get('confirmPassword')?.touched"
+        >
+          The two passwords do not match.
+        </p>
+
+        <div class="form-group">
+          <label class="form-label" for="regRole">I Am A...</label>
+          <select id="regRole" class="form-control" formControlName="role">
+            <option *ngFor="let role of roles" [value]="role.value">{{ role.label }}</option>
+          </select>
+        </div>
+
+        <label class="checkbox-row">
+          <input type="checkbox" formControlName="terms" />
+          <span>I agree to the terms of service and the privacy policy.</span>
+        </label>
+        <span
+          class="form-error"
+          *ngIf="registerForm.get('terms')?.invalid && registerForm.get('terms')?.touched"
+        >
+          You need to accept the terms before creating an account.
+        </span>
+
+        <button type="submit" class="btn btn-primary btn-lg btn-block mt-3">Create Account</button>
+
+        <p class="auth-foot">
+          Already registered?
+          <button type="button" class="link-btn" (click)="showLogin()">Sign in instead</button>
+        </p>
+
+      </form>
+
+    </div>
+
+  </div>
+</div>

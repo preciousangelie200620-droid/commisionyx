@@ -1,0 +1,340 @@
+<div class="page">
+  <div class="container">
+
+    <!-- ==================================================================
+         CONFIRMATION PANEL (after a successful submit)
+         ================================================================== -->
+    <section class="confirm panel" *ngIf="submitted">
+      <div class="confirm-mark">
+        <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M20 6 9 17l-5-5" />
+        </svg>
+      </div>
+
+      <span class="eyebrow">Request Received</span>
+      <h1>Your Commission Is With The Artist</h1>
+      <p class="confirm-lead">
+        Reference <strong>{{ referenceNumber }}</strong>. {{ selectedArtist?.name }} usually replies
+        {{ selectedArtist?.responseTime ? selectedArtist?.responseTime?.toLowerCase() : 'within 48 hours' }}.
+      </p>
+
+      <div class="confirm-grid">
+        <div class="summary-row" *ngFor="let row of submittedSummary">
+          <span class="label">{{ row.label }}</span>
+          <span class="value">{{ row.value }}</span>
+        </div>
+      </div>
+
+      <div class="confirm-total">
+        <span>Estimated total</span>
+        <strong>${{ breakdown.total }}</strong>
+      </div>
+
+      <div class="confirm-actions">
+        <button type="button" class="btn btn-primary" (click)="startAnother()">Request Another</button>
+        <a routerLink="/browse" class="btn btn-outline">Browse Artwork</a>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         THE FORM
+         ================================================================== -->
+    <ng-container *ngIf="!submitted">
+
+      <header class="page-head">
+        <span class="eyebrow">Custom Work</span>
+        <h1>Request a Commission</h1>
+        <p>
+          Describe what you want and watch the estimate update as you choose. Nothing is charged
+          until the artist accepts and the brief is agreed.
+        </p>
+      </header>
+
+      <form class="commission-layout" [formGroup]="commissionForm" (ngSubmit)="onSubmit()">
+
+        <!-- ==============================================================
+             LEFT COLUMN: the choices
+             ============================================================== -->
+        <div class="form-column">
+
+          <!-- ART TYPE -->
+          <section class="panel form-block">
+            <h3 class="panel-title">1. What Should Be Drawn</h3>
+
+            <div class="option-list">
+              <label
+                class="choice"
+                *ngFor="let type of artTypes"
+                [class.selected]="commissionForm.value.artType === type.id"
+              >
+                <input type="radio" formControlName="artType" [value]="type.id" />
+                <span class="choice-body">
+                  <span class="choice-label">{{ type.label }}</span>
+                  <span class="choice-desc">{{ type.description }}</span>
+                </span>
+                <span class="choice-price">from ${{ type.price }}</span>
+              </label>
+            </div>
+          </section>
+
+          <!-- ARTIST -->
+          <section class="panel form-block">
+            <h3 class="panel-title">2. Choose Your Artist</h3>
+
+            <div class="form-group">
+              <label class="form-label" for="artistId">Artist</label>
+              <select id="artistId" class="form-control" formControlName="artistId">
+                <option *ngFor="let artist of artists" [ngValue]="artist.id">
+                  {{ artist.name }} &mdash; from ${{ artist.startingPrice }} &mdash; {{ artist.rating.toFixed(1) }} stars
+                </option>
+              </select>
+              <span class="form-hint" *ngIf="selectedArtist as chosen">
+                {{ chosen.bio }}
+              </span>
+            </div>
+
+            <!-- A small preview of the chosen artist -->
+            <div class="artist-preview" *ngIf="selectedArtist as chosen">
+              <img [src]="chosen.avatar" [alt]="chosen.name" />
+              <div class="artist-preview-body">
+                <span class="artist-preview-name">{{ chosen.name }}</span>
+                <span class="artist-preview-meta">
+                  {{ chosen.completedCommissions }} commissions &bull; replies {{ chosen.responseTime }}
+                </span>
+                <div class="artist-preview-tags">
+                  <span class="badge badge-muted" *ngFor="let tag of chosen.specialties">{{ tag }}</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- CHARACTERS + STYLE -->
+          <section class="panel form-block">
+            <h3 class="panel-title">3. Characters and Style</h3>
+
+            <div class="form-group">
+              <label class="form-label" for="characterCount">Number of Characters</label>
+              <select id="characterCount" class="form-control" formControlName="characterCount">
+                <option *ngFor="let count of characterOptions" [ngValue]="count">
+                  {{ count }} {{ count === 1 ? 'character' : 'characters' }}
+                </option>
+              </select>
+              <span class="form-hint">The first character is included. Every extra one adds $60.</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="style">Art Style</label>
+              <select id="style" class="form-control" formControlName="style">
+                <option *ngFor="let styleOption of styles" [value]="styleOption.id">
+                  {{ styleOption.label }} &mdash; {{ styleOption.description }}
+                </option>
+              </select>
+            </div>
+
+            <!-- Style chips as a visual alternative to the dropdown -->
+            <div class="style-chips">
+              <button
+                type="button"
+                class="chip"
+                *ngFor="let styleOption of styles"
+                [class.active]="commissionForm.value.style === styleOption.id"
+                (click)="commissionForm.patchValue({ style: styleOption.id })"
+              >
+                {{ styleOption.label }}
+              </button>
+            </div>
+          </section>
+
+          <!-- BACKGROUND -->
+          <section class="panel form-block">
+            <h3 class="panel-title">4. Background</h3>
+
+            <div class="option-list">
+              <label
+                class="choice"
+                *ngFor="let option of backgrounds"
+                [class.selected]="commissionForm.value.background === option.id"
+              >
+                <input type="radio" formControlName="background" [value]="option.id" />
+                <span class="choice-body">
+                  <span class="choice-label">{{ option.label }}</span>
+                  <span class="choice-desc">{{ option.description }}</span>
+                </span>
+                <span class="choice-price">
+                  {{ option.price === 0 ? 'Included' : '+$' + option.price }}
+                </span>
+              </label>
+            </div>
+
+            <div class="form-group mt-3">
+              <label class="form-label" for="usage">Usage Rights</label>
+              <select id="usage" class="form-control" formControlName="usage">
+                <option *ngFor="let option of usageOptions" [value]="option.id">
+                  {{ option.label }} &mdash; {{ option.description }}
+                </option>
+              </select>
+            </div>
+          </section>
+
+          <!-- DEADLINE -->
+          <section class="panel form-block">
+            <h3 class="panel-title">5. Deadline</h3>
+
+            <div class="form-group">
+              <label class="form-label" for="deadline">Turnaround</label>
+              <select id="deadline" class="form-control" formControlName="deadline">
+                <option *ngFor="let option of deadlineOptions" [value]="option.id">
+                  {{ option.label }}
+                </option>
+              </select>
+              <span class="form-hint">
+                Priority and rush work adds a percentage to the final estimate.
+              </span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="deadlineDate">Target Delivery Date</label>
+              <input
+                id="deadlineDate"
+                type="date"
+                class="form-control"
+                formControlName="deadlineDate"
+                [min]="minDeadline"
+              />
+              <span class="form-error" *ngIf="commissionForm.get('deadlineDate')?.invalid && commissionForm.get('deadlineDate')?.touched">
+                Please choose the date you need the artwork by.
+              </span>
+            </div>
+          </section>
+
+          <!-- BRIEF -->
+          <section class="panel form-block">
+            <h3 class="panel-title">6. Your Brief</h3>
+
+            <div class="form-group">
+              <label class="form-label" for="instructions">Instructions</label>
+              <textarea
+                id="instructions"
+                class="form-control"
+                formControlName="instructions"
+                rows="6"
+                placeholder="Describe the character, pose, mood, clothing and colours. The more detail the better."
+              ></textarea>
+              <span
+                class="form-error"
+                *ngIf="commissionForm.get('instructions')?.invalid && commissionForm.get('instructions')?.touched"
+              >
+                Please write at least 30 characters so the artist knows what to draw.
+              </span>
+              <span class="form-hint">
+                {{ commissionForm.value.instructions.length }} characters written.
+              </span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="reference">Reference Image</label>
+              <input
+                id="reference"
+                type="file"
+                class="form-control file-input"
+                accept="image/*"
+                (change)="onReferenceSelected($event)"
+              />
+              <span class="form-hint">
+                Optional. PNG or JPG. This demo records the file name only, nothing is uploaded.
+              </span>
+              <span class="file-chip" *ngIf="commissionForm.value.referenceName">
+                Attached: {{ commissionForm.value.referenceName }}
+              </span>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ==============================================================
+             RIGHT COLUMN: sticky live estimate
+             ============================================================== -->
+        <aside class="estimate-column">
+          <div class="estimate panel">
+
+            <span class="eyebrow">Live Estimate</span>
+            <h3 class="estimate-title">Your Price</h3>
+
+            <!-- The big number -->
+            <div class="estimate-total">
+              <span class="estimate-currency">$</span>
+              <span class="estimate-amount">{{ breakdown.total }}</span>
+            </div>
+            <p class="estimate-note">Updates instantly as you change the options above.</p>
+
+            <hr class="divider" />
+
+            <!-- Breakdown lines -->
+            <div class="estimate-lines">
+              <div class="summary-row">
+                <span class="label">Base price</span>
+                <span class="value">${{ breakdown.base }}</span>
+              </div>
+
+              <div class="summary-row" *ngIf="breakdown.styleAdjustment !== 0">
+                <span class="label">Style adjustment</span>
+                <span class="value">
+                  {{ breakdown.styleAdjustment > 0 ? '+' : '' }}${{ breakdown.styleAdjustment }}
+                </span>
+              </div>
+
+              <div class="summary-row" *ngIf="breakdown.characterFee > 0">
+                <span class="label">Extra characters</span>
+                <span class="value">+${{ breakdown.characterFee }}</span>
+              </div>
+
+              <div class="summary-row" *ngIf="breakdown.backgroundFee > 0">
+                <span class="label">Background</span>
+                <span class="value">+${{ breakdown.backgroundFee }}</span>
+              </div>
+
+              <div class="summary-row" *ngIf="breakdown.artistAdjustment > 0">
+                <span class="label">Artist rate</span>
+                <span class="value">+${{ breakdown.artistAdjustment }}</span>
+              </div>
+
+              <div class="summary-row" *ngIf="breakdown.commercialFee > 0">
+                <span class="label">Commercial licence</span>
+                <span class="value">+${{ breakdown.commercialFee }}</span>
+              </div>
+
+              <div class="summary-row" *ngIf="breakdown.rushFee > 0">
+                <span class="label">Deadline surcharge</span>
+                <span class="value">+${{ breakdown.rushFee }}</span>
+              </div>
+            </div>
+
+            <div class="estimate-summary">
+              <div class="summary-row">
+                <span class="label">Deadline</span>
+                <span class="value">{{ breakdown.rushLabel }}</span>
+              </div>
+              <div class="summary-row" *ngIf="selectedArtist as chosen">
+                <span class="label">Artist</span>
+                <span class="value">{{ chosen.name }}</span>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg btn-block mt-3">
+              Send Commission Request
+            </button>
+
+            <p class="estimate-fine">
+              Final pricing is confirmed by the artist after they read your brief. This is an
+              estimate, not a charge.
+            </p>
+
+          </div>
+        </aside>
+
+      </form>
+
+    </ng-container>
+
+  </div>
+</div>

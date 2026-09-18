@@ -1,0 +1,60 @@
+<article class="art-card">
+
+  <!-- Artwork image, with the overlay actions on top -->
+  <a class="art-thumb" [routerLink]="['/artwork', artwork.id]">
+    <img [src]="artwork.image" [alt]="artwork.title + ' by ' + artwork.artistName" loading="lazy" />
+
+    <!-- Dark gradient that makes the badges readable -->
+    <span class="thumb-scrim"></span>
+
+    <!-- Featured ribbon -->
+    <span class="ribbon" *ngIf="artwork.featured">Featured</span>
+
+    <!-- Category chip -->
+    <span class="thumb-category">{{ artwork.category }}</span>
+
+    <!-- Hover overlay with a quick prompt -->
+    <span class="thumb-hover">
+      <span class="thumb-hover-text">View Details</span>
+    </span>
+  </a>
+
+  <!-- Text content -->
+  <div class="art-body">
+
+    <h3 class="art-title">
+      <a [routerLink]="['/artwork', artwork.id]">{{ artwork.title }}</a>
+    </h3>
+
+    <p class="art-artist">by {{ artwork.artistName }}</p>
+
+    <!-- Rating row -->
+    <div class="art-meta">
+      <span class="stars" [attr.aria-label]="artwork.rating + ' out of 5 stars'">
+        <span
+          class="star"
+          *ngFor="let position of starPositions"
+          [class.filled]="position <= artwork.rating"
+        >&#9733;</span>
+      </span>
+      <span class="rating-value">{{ artwork.rating.toFixed(1) }}</span>
+      <span class="reviews">({{ artwork.reviews }})</span>
+    </div>
+
+    <span class="badge badge-muted art-style">{{ artwork.style }}</span>
+
+    <!-- Price and actions -->
+    <div class="art-foot">
+      <span class="art-price">${{ artwork.price }}</span>
+
+      <div class="art-actions">
+        <a class="btn btn-outline btn-sm" [routerLink]="['/artwork', artwork.id]">View Details</a>
+        <button type="button" class="btn btn-primary btn-sm" (click)="onAddToCart($event)">
+          Add to Cart
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+</article>

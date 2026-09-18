@@ -1,0 +1,10 @@
+/* The layout shell: content grows so the footer always sits at the bottom. */
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-main {
+  flex: 1 0 auto;
+}

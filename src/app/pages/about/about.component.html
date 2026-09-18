@@ -1,0 +1,132 @@
+<div class="page">
+  <div class="container">
+
+    <!-- ==================================================================
+         INTRO
+         ================================================================== -->
+    <section class="about-hero">
+      <div class="about-hero-text">
+        <span class="eyebrow">About CommisioNyx</span>
+        <h1>A Marketplace For The Dark And The Beautiful</h1>
+        <p class="about-lead">
+          CommisioNyx was built for the kind of artwork that does not fit a general store:
+          gothic portraitists, anime illustrators with a taste for blood moons, and concept
+          artists who build ruins for a living.
+        </p>
+        <p class="about-lead">
+          The idea is simple. Buy an original piece that already exists, or write a brief and
+          have an artist make exactly what you have been imagining. Both happen in the same
+          place, with the price visible before you commit.
+        </p>
+
+        <div class="about-actions">
+          <a routerLink="/browse" class="btn btn-primary">Browse Artwork</a>
+          <a routerLink="/commissions" class="btn btn-outline">Request a Commission</a>
+        </div>
+      </div>
+
+      <div class="about-hero-media">
+        <img src="assets/img/about_studio.png" alt="A gothic artist studio with a half finished painting on an easel" />
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         VALUES
+         ================================================================== -->
+    <section class="section">
+      <div class="section-head center">
+        <span class="eyebrow">What We Stand On</span>
+        <h2>Four Rules We Do Not Bend</h2>
+      </div>
+
+      <div class="grid grid-2">
+        <article class="value-card" *ngFor="let value of values">
+          <h3>{{ value.title }}</h3>
+          <p>{{ value.text }}</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         NUMBERS
+         ================================================================== -->
+    <section class="numbers">
+      <div class="grid grid-4">
+        <div class="number-item">
+          <span class="number-value">2018</span>
+          <span class="number-label">First artist joined</span>
+        </div>
+        <div class="number-item">
+          <span class="number-value">1,200+</span>
+          <span class="number-label">Commissions delivered</span>
+        </div>
+        <div class="number-item">
+          <span class="number-value">480+</span>
+          <span class="number-label">Original pieces sold</span>
+        </div>
+        <div class="number-item">
+          <span class="number-value">5%</span>
+          <span class="number-label">Flat service fee</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         TEAM
+         ================================================================== -->
+    <section class="section">
+      <div class="section-head center">
+        <span class="eyebrow">Behind The Site</span>
+        <h2>Who Runs CommisioNyx</h2>
+        <p>Three people, no venture capital, and a strong opinion about how artists should be paid.</p>
+      </div>
+
+      <div class="grid grid-3">
+        <article class="team-card" *ngFor="let member of team">
+          <h3>{{ member.name }}</h3>
+          <span class="team-role">{{ member.role }}</span>
+          <p>{{ member.note }}</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         FAQ
+         ================================================================== -->
+    <section class="section faq-section">
+      <div class="section-head center">
+        <span class="eyebrow">Questions</span>
+        <h2>Things People Ask Before Their First Order</h2>
+      </div>
+
+      <div class="faq-list">
+        <div
+          class="faq-item"
+          *ngFor="let faq of faqs; let i = index"
+          [class.open]="openFaq === i"
+        >
+          <button type="button" class="faq-question" (click)="toggleFaq(i)">
+            <span>{{ faq.question }}</span>
+            <span class="faq-icon" aria-hidden="true">{{ openFaq === i ? '\u2212' : '+' }}</span>
+          </button>
+          <div class="faq-answer" *ngIf="openFaq === i">
+            <p>{{ faq.answer }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         CLOSING
+         ================================================================== -->
+    <section class="about-closing">
+      <h2>Start With A Piece You Cannot Stop Looking At</h2>
+      <p>Either take one home today, or describe the one that does not exist yet.</p>
+      <div class="closing-actions">
+        <a routerLink="/browse" class="btn btn-primary btn-lg">Browse Artwork</a>
+        <a routerLink="/commissions" class="btn btn-outline btn-lg">Request a Commission</a>
+      </div>
+    </section>
+
+  </div>
+</div>

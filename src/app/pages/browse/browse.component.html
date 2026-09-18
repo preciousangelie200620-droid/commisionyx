@@ -1,0 +1,152 @@
+<div class="page">
+  <div class="container">
+
+    <!-- Page header -->
+    <header class="browse-head">
+      <span class="eyebrow">The Catalogue</span>
+      <h1>Browse Art</h1>
+      <p>
+        {{ allArtworks.length }} original artworks from independent artists. Filter by category,
+        style, price or rating to find the one you want.
+      </p>
+    </header>
+
+    <!-- Quick category chips -->
+    <div class="chip-row">
+      <button
+        type="button"
+        class="chip"
+        *ngFor="let category of categories"
+        [class.active]="selectedCategory === category"
+        (click)="selectCategory(category)"
+      >
+        {{ category }}
+      </button>
+    </div>
+
+    <!-- ==================================================================
+         FILTER PANEL
+         ================================================================== -->
+    <section class="filters panel">
+
+      <!-- Row 1: search and sort -->
+      <div class="filter-row">
+
+        <div class="filter-field filter-search">
+          <label class="form-label" for="search">Search</label>
+          <div class="search-wrap">
+            <span class="search-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="7" />
+                <path d="m20 20-3.2-3.2" />
+              </svg>
+            </span>
+            <input
+              id="search"
+              type="text"
+              class="form-control"
+              placeholder="Title, artist, style or tag..."
+              [(ngModel)]="searchTerm"
+              (ngModelChange)="applyFilters()"
+            />
+          </div>
+        </div>
+
+        <div class="filter-field">
+          <label class="form-label" for="style">Art Style</label>
+          <select
+            id="style"
+            class="form-control"
+            [(ngModel)]="selectedStyle"
+            (ngModelChange)="applyFilters()"
+          >
+            <option *ngFor="let style of styles" [value]="style">{{ style }}</option>
+          </select>
+        </div>
+
+        <div class="filter-field">
+          <label class="form-label" for="rating">Minimum Rating</label>
+          <select
+            id="rating"
+            class="form-control"
+            [(ngModel)]="minimumRating"
+            (ngModelChange)="applyFilters()"
+          >
+            <option *ngFor="let option of ratings" [ngValue]="option.value">{{ option.label }}</option>
+          </select>
+        </div>
+
+        <div class="filter-field">
+          <label class="form-label" for="sort">Sort By</label>
+          <select id="sort" class="form-control" [(ngModel)]="sortBy" (ngModelChange)="applyFilters()">
+            <option *ngFor="let option of sortOptions" [value]="option.value">{{ option.label }}</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- Row 2: price slider plus a reset button -->
+      <div class="filter-row filter-row-bottom">
+
+        <div class="filter-field price-field">
+          <label class="form-label" for="price">
+            Maximum Price
+            <span class="price-value">${{ priceLimit }}</span>
+          </label>
+          <input
+            id="price"
+            type="range"
+            class="price-range"
+            min="0"
+            [max]="maxPrice"
+            step="10"
+            [(ngModel)]="priceLimit"
+            (ngModelChange)="applyFilters()"
+          />
+          <div class="range-ends">
+            <span>$0</span>
+            <span>${{ maxPrice }}</span>
+          </div>
+        </div>
+
+        <div class="filter-actions">
+          <button
+            type="button"
+            class="btn btn-ghost"
+            (click)="clearFilters()"
+            [disabled]="!hasActiveFilters"
+          >
+            Clear Filters
+          </button>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- Result count -->
+    <p class="result-count">
+      Showing <strong>{{ visibleArtworks.length }}</strong>
+      of {{ allArtworks.length }} artworks
+    </p>
+
+    <!-- ==================================================================
+         RESULTS
+         ================================================================== -->
+    <div class="grid grid-3">
+      <app-artwork-card
+        *ngFor="let artwork of visibleArtworks"
+        [artwork]="artwork"
+        (addToCart)="onAddToCart($event)"
+      ></app-artwork-card>
+    </div>
+
+    <!-- Nothing matched the filters -->
+    <div class="empty-state" *ngIf="visibleArtworks.length === 0">
+      <h3>No artwork matches those filters</h3>
+      <p>Try widening the price range, or clear everything and start again.</p>
+      <button type="button" class="btn btn-primary" (click)="clearFilters()">Clear All Filters</button>
+    </div>
+
+  </div>
+</div>

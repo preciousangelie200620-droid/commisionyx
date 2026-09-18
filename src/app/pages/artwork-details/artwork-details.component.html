@@ -1,0 +1,170 @@
+<div class="page" *ngIf="artwork as art">
+  <div class="container">
+
+    <!-- Breadcrumbs -->
+    <nav class="crumbs">
+      <a routerLink="/">Home</a>
+      <span class="sep">/</span>
+      <a routerLink="/browse">Browse Art</a>
+      <span class="sep">/</span>
+      <a [routerLink]="['/browse']" [queryParams]="{ category: art.category }">{{ art.category }}</a>
+      <span class="sep">/</span>
+      <span class="current">{{ art.title }}</span>
+    </nav>
+
+    <!-- ==================================================================
+         MAIN: image on the left, details on the right
+         ================================================================== -->
+    <div class="detail-layout">
+
+      <!-- Artwork image -->
+      <div class="detail-media">
+        <div class="media-frame">
+          <img [src]="art.image" [alt]="art.title + ' by ' + art.artistName" />
+        </div>
+
+        <!-- Small meta list under the image -->
+        <ul class="media-meta">
+          <li>
+            <span class="meta-label">Medium</span>
+            <span class="meta-value">{{ art.medium }}</span>
+          </li>
+          <li>
+            <span class="meta-label">Print Size</span>
+            <span class="meta-value">{{ art.dimensions }}</span>
+          </li>
+          <li>
+            <span class="meta-label">Year</span>
+            <span class="meta-value">{{ art.year }}</span>
+          </li>
+          <li>
+            <span class="meta-label">Licence</span>
+            <span class="meta-value">{{ art.licence }}</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Details -->
+      <div class="detail-info">
+
+        <div class="detail-tags-top">
+          <span class="badge" *ngIf="art.featured">Featured</span>
+          <a
+            class="badge badge-muted"
+            [routerLink]="['/browse']"
+            [queryParams]="{ category: art.category }"
+          >{{ art.category }}</a>
+          <span class="badge badge-muted">{{ art.style }}</span>
+        </div>
+
+        <h1 class="detail-title">{{ art.title }}</h1>
+
+        <!-- Artist row -->
+        <a
+          class="detail-artist"
+          *ngIf="artist as artistInfo"
+          routerLink="/artists"
+        >
+          <img [src]="artistInfo.avatar" [alt]="artistInfo.name" />
+          <span class="detail-artist-text">
+            <span class="detail-artist-name">{{ artistInfo.name }}</span>
+            <span class="detail-artist-sub">{{ artistInfo.location }}</span>
+          </span>
+        </a>
+
+        <!-- Rating -->
+        <div class="detail-rating">
+          <span class="stars">
+            <span
+              class="star"
+              *ngFor="let position of starPositions"
+              [class.filled]="position <= art.rating"
+            >&#9733;</span>
+          </span>
+          <strong>{{ art.rating.toFixed(1) }}</strong>
+          <span class="text-soft">({{ art.reviews }} reviews)</span>
+        </div>
+
+        <p class="detail-description">{{ art.description }}</p>
+
+        <!-- Tags -->
+        <div class="detail-tag-row">
+          <span class="detail-tag" *ngFor="let tag of art.tags">#{{ tag }}</span>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- ==============================================================
+             PRICE BOX
+             ============================================================== -->
+        <div class="buy-box">
+
+          <div class="buy-price-row">
+            <div>
+              <span class="buy-label">Price</span>
+              <span class="buy-price">${{ art.price }}</span>
+            </div>
+
+            <!-- Quantity stepper -->
+            <div class="qty">
+              <button
+                type="button"
+                class="qty-btn"
+                (click)="decreaseQuantity()"
+                [disabled]="quantity === 1"
+                aria-label="Decrease quantity"
+              >&minus;</button>
+              <span class="qty-value">{{ quantity }}</span>
+              <button
+                type="button"
+                class="qty-btn"
+                (click)="increaseQuantity()"
+                [disabled]="quantity === 10"
+                aria-label="Increase quantity"
+              >+</button>
+            </div>
+          </div>
+
+          <div class="buy-line">
+            <span>Line total</span>
+            <strong>${{ art.price * quantity }}</strong>
+          </div>
+
+          <div class="buy-actions">
+            <button type="button" class="btn btn-primary btn-lg" (click)="addToCart()">
+              Add to Cart
+            </button>
+            <a routerLink="/cart" class="btn btn-outline btn-lg">View Cart</a>
+          </div>
+
+          <p class="buy-note">
+            Digital delivery. A high resolution file is released to your account as soon as the
+            order is confirmed.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ==================================================================
+         MORE FROM THIS ARTIST
+         ================================================================== -->
+    <section class="related" *ngIf="relatedArtworks.length > 0">
+      <div class="section-head">
+        <span class="eyebrow">More From This Artist</span>
+        <h2>You Might Also Like</h2>
+      </div>
+
+      <div class="grid grid-3">
+        <app-artwork-card
+          *ngFor="let related of relatedArtworks"
+          [artwork]="related"
+          (addToCart)="onAddRelated($event)"
+        ></app-artwork-card>
+      </div>
+    </section>
+
+  </div>
+</div>

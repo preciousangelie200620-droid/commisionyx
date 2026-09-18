@@ -1,0 +1,65 @@
+<footer class="footer">
+  <div class="container">
+
+    <div class="footer-top">
+
+      <!-- Brand and short pitch -->
+      <div class="footer-brand">
+        <div class="brand-line">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="M12 2 L20 7 V17 L12 22 L4 17 V7 Z" />
+              <path d="M12 7 L16 9.5 V14.5 L12 17 L8 14.5 V9.5 Z" />
+            </svg>
+          </span>
+          <span class="brand-text">Commisio<span class="brand-accent">Nyx</span></span>
+        </div>
+        <p class="footer-pitch">
+          A marketplace for dark, elegant and deeply personal artwork. Commission the piece
+          you have been imagining, or take home one that already exists.
+        </p>
+      </div>
+
+      <!-- Shop column -->
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <ul>
+          <li *ngFor="let category of categories">
+            <a [routerLink]="['/browse']" [queryParams]="{ category: category }">{{ category }}</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Platform column -->
+      <div class="footer-col">
+        <h4>Platform</h4>
+        <ul>
+          <li *ngFor="let link of platformLinks">
+            <a [routerLink]="link.path">{{ link.label }}</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Account column -->
+      <div class="footer-col">
+        <h4>Account</h4>
+        <ul>
+          <li *ngFor="let link of accountLinks">
+            <a [routerLink]="link.path">{{ link.label }}</a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <hr class="divider" />
+
+    <div class="footer-bottom">
+      <p class="copyright">
+        &copy; {{ year }} CommisioNyx. A student project built with Angular. All artwork shown is sample content.
+      </p>
+      <p class="footer-note">No real payments are processed on this site.</p>
+    </div>
+
+  </div>
+</footer>

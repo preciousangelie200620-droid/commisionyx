@@ -1,0 +1,171 @@
+.browse-head {
+  max-width: 720px;
+  margin-bottom: 30px;
+}
+
+.browse-head h1 { margin: 12px 0 12px; }
+
+.browse-head p {
+  color: var(--text-soft);
+  margin: 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Category chips                                                             */
+/* -------------------------------------------------------------------------- */
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.chip {
+  padding: 9px 20px;
+  border: 1px solid var(--nyx-line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-soft);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: all 0.25s var(--ease);
+}
+
+.chip:hover {
+  color: var(--nyx-white);
+  border-color: rgba(225, 29, 56, 0.55);
+}
+
+.chip.active {
+  background: linear-gradient(135deg, var(--nyx-crimson) 0%, var(--nyx-crimson-deep) 100%);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(168, 15, 38, 0.4);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Filter panel                                                               */
+/* -------------------------------------------------------------------------- */
+.filters {
+  margin-bottom: 26px;
+  padding: 26px 26px 22px;
+}
+
+.filter-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 20px;
+  align-items: end;
+}
+
+.filter-row-bottom {
+  grid-template-columns: 2fr auto;
+  margin-top: 22px;
+  padding-top: 22px;
+  border-top: 1px solid var(--nyx-line);
+}
+
+.filter-field { min-width: 0; }
+
+/* Search box with the magnifier sitting inside it. */
+.search-wrap { position: relative; }
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--nyx-gray-dim);
+  pointer-events: none;
+  display: flex;
+}
+
+.search-wrap .form-control { padding-left: 42px; }
+
+/* -------------------------------------------------------------------------- */
+/* Price range slider                                                         */
+/* -------------------------------------------------------------------------- */
+.price-field { padding-right: 20px; }
+
+.price-value {
+  float: right;
+  color: var(--nyx-crimson-bright);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.price-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--nyx-crimson) 0%, var(--nyx-crimson-deep) 100%);
+  outline: none;
+  cursor: pointer;
+  margin: 14px 0 6px;
+}
+
+.price-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background: var(--nyx-white);
+  border: 3px solid var(--nyx-crimson-bright);
+  cursor: pointer;
+  transition: box-shadow 0.25s var(--ease), transform 0.25s var(--ease);
+}
+
+.price-range::-webkit-slider-thumb:hover {
+  box-shadow: 0 0 0 7px rgba(225, 29, 56, 0.22);
+  transform: scale(1.08);
+}
+
+.price-range::-moz-range-thumb {
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background: var(--nyx-white);
+  border: 3px solid var(--nyx-crimson-bright);
+  cursor: pointer;
+}
+
+.range-ends {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.74rem;
+  color: var(--nyx-gray-dim);
+}
+
+.filter-actions { display: flex; justify-content: flex-end; }
+
+/* -------------------------------------------------------------------------- */
+/* Result count                                                               */
+/* -------------------------------------------------------------------------- */
+.result-count {
+  margin: 0 0 22px;
+  font-size: 0.9rem;
+  color: var(--text-soft);
+}
+
+.result-count strong { color: var(--nyx-crimson-bright); }
+
+/* -------------------------------------------------------------------------- */
+/* Responsive                                                                 */
+/* -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .filter-row { grid-template-columns: 1fr 1fr; }
+  .filter-search { grid-column: 1 / -1; }
+}
+
+@media (max-width: 640px) {
+  .filter-row,
+  .filter-row-bottom { grid-template-columns: 1fr; }
+  .filter-actions { justify-content: stretch; }
+  .filter-actions .btn { width: 100%; }
+}

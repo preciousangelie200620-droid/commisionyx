@@ -1,0 +1,603 @@
+/* ==========================================================================
+   CommisioNyx - global stylesheet
+   A dark, elegant, artistic marketplace theme.
+   Everything here is plain CSS, no frameworks, so it is easy to follow.
+   ========================================================================== */
+
+/* Display font for headings (elegant, slightly gothic) + clean body font. */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* --------------------------------------------------------------------------
+   1. Design tokens
+   -------------------------------------------------------------------------- */
+:root {
+  /* Core palette */
+  --nyx-black: #08080a;
+  --nyx-surface: #101014;
+  --nyx-surface-2: #17171d;
+  --nyx-surface-3: #1f1f27;
+  --nyx-line: rgba(255, 255, 255, 0.09);
+
+  --nyx-crimson: #a80f26;
+  --nyx-crimson-bright: #e11d38;
+  --nyx-crimson-deep: #6d0a19;
+  --nyx-crimson-glow: rgba(225, 29, 56, 0.35);
+
+  --nyx-white: #f4f2f0;
+  --nyx-gray: #9a97a3;
+  --nyx-gray-dim: #6b6875;
+
+  /* Text */
+  --text: var(--nyx-white);
+  --text-soft: var(--nyx-gray);
+
+  /* Spacing and shape */
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 16px;
+  --shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+  --shadow-red: 0 0 32px rgba(168, 15, 38, 0.35);
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  --font-display: 'Cinzel', 'Times New Roman', serif;
+  --font-body: 'Inter', 'Segoe UI', Arial, sans-serif;
+}
+
+/* --------------------------------------------------------------------------
+   2. Reset and base
+   -------------------------------------------------------------------------- */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  background-color: var(--nyx-black);
+  /* A faint crimson glow behind everything keeps the page from looking flat. */
+  background-image:
+    radial-gradient(1100px 600px at 12% -10%, rgba(168, 15, 38, 0.22), transparent 65%),
+    radial-gradient(900px 500px at 100% 0%, rgba(109, 10, 25, 0.18), transparent 60%);
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin: 0 0 0.5em;
+  line-height: 1.2;
+}
+
+h1 { font-size: clamp(2rem, 5vw, 3.6rem); }
+h2 { font-size: clamp(1.6rem, 3.4vw, 2.5rem); }
+h3 { font-size: clamp(1.2rem, 2.2vw, 1.6rem); }
+
+p { margin: 0 0 1rem; }
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.25s var(--ease);
+}
+
+a:hover { color: var(--nyx-crimson-bright); }
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Custom scrollbar - small detail, big premium feel. */
+::-webkit-scrollbar { width: 11px; height: 11px; }
+::-webkit-scrollbar-track { background: var(--nyx-black); }
+::-webkit-scrollbar-thumb {
+  background: #2b2b34;
+  border-radius: 20px;
+  border: 2px solid var(--nyx-black);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--nyx-crimson); }
+
+/* --------------------------------------------------------------------------
+   3. Layout helpers
+   -------------------------------------------------------------------------- */
+.container {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.page {
+  min-height: 60vh;
+  padding: 56px 0 90px;
+  animation: pageIn 0.45s var(--ease) both;
+}
+
+.section {
+  padding: 68px 0;
+}
+
+/* Section heading with a small crimson rule above the title. */
+.section-head {
+  margin-bottom: 38px;
+  max-width: 720px;
+}
+
+.section-head .eyebrow {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.section-head h2 { margin-bottom: 10px; }
+
+.section-head p {
+  color: var(--text-soft);
+  margin: 0;
+}
+
+.section-head.center {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--nyx-crimson-bright);
+}
+
+.text-soft { color: var(--text-soft); }
+.text-center { text-align: center; }
+.mt-0 { margin-top: 0; }
+.mb-0 { margin-bottom: 0; }
+.mt-2 { margin-top: 16px; }
+.mt-3 { margin-top: 26px; }
+
+/* Decorative divider: a thin line that fades out at both ends. */
+.divider {
+  height: 1px;
+  border: 0;
+  margin: 0;
+  background: linear-gradient(90deg, transparent, rgba(225, 29, 56, 0.55), transparent);
+}
+
+/* --------------------------------------------------------------------------
+   4. Grids
+   -------------------------------------------------------------------------- */
+.grid {
+  display: grid;
+  gap: 26px;
+}
+
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+@media (max-width: 1024px) {
+  .grid-4 { grid-template-columns: repeat(3, 1fr); }
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 720px) {
+  .grid-4,
+  .grid-3,
+  .grid-2 { grid-template-columns: repeat(1, 1fr); }
+
+  .container { padding: 0 18px; }
+  .page { padding: 36px 0 70px; }
+  .section { padding: 48px 0; }
+}
+
+/* --------------------------------------------------------------------------
+   5. Buttons
+   -------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 13px 27px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  background: none;
+  color: var(--nyx-white);
+  transition: transform 0.25s var(--ease), box-shadow 0.3s var(--ease),
+    background 0.3s var(--ease), border-color 0.3s var(--ease), color 0.25s var(--ease);
+}
+
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0); }
+
+.btn:focus-visible {
+  outline: 2px solid var(--nyx-crimson-bright);
+  outline-offset: 3px;
+}
+
+/* Primary: solid crimson */
+.btn-primary {
+  background: linear-gradient(135deg, var(--nyx-crimson) 0%, var(--nyx-crimson-deep) 100%);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 10px 26px rgba(168, 15, 38, 0.32);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--nyx-crimson-bright) 0%, var(--nyx-crimson) 100%);
+  box-shadow: 0 14px 34px rgba(225, 29, 56, 0.45);
+  color: #fff;
+}
+
+/* Secondary: outlined, fills crimson on hover */
+.btn-outline {
+  border-color: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.btn-outline:hover {
+  border-color: var(--nyx-crimson-bright);
+  color: #fff;
+  background: rgba(225, 29, 56, 0.14);
+  box-shadow: 0 0 26px rgba(225, 29, 56, 0.25);
+}
+
+/* Ghost: for quiet actions such as "remove" */
+.btn-ghost {
+  border-color: var(--nyx-line);
+  color: var(--text-soft);
+  padding: 10px 18px;
+}
+
+.btn-ghost:hover {
+  color: var(--nyx-crimson-bright);
+  border-color: var(--nyx-crimson);
+  background: rgba(168, 15, 38, 0.1);
+}
+
+.btn-block { width: 100%; }
+
+.btn-sm {
+  padding: 9px 16px;
+  font-size: 0.72rem;
+}
+
+.btn-lg {
+  padding: 16px 36px;
+  font-size: 0.88rem;
+}
+
+.btn:disabled,
+.btn[disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* --------------------------------------------------------------------------
+   6. Cards and surfaces
+   -------------------------------------------------------------------------- */
+.card {
+  background: linear-gradient(180deg, var(--nyx-surface-2) 0%, var(--nyx-surface) 100%);
+  border: 1px solid var(--nyx-line);
+  border-radius: var(--radius-lg);
+  padding: 26px;
+  transition: transform 0.35s var(--ease), border-color 0.35s var(--ease),
+    box-shadow 0.35s var(--ease);
+}
+
+.card:hover {
+  border-color: rgba(225, 29, 56, 0.45);
+  box-shadow: var(--shadow);
+  transform: translateY(-4px);
+}
+
+/* A panel is a card that is not expected to lift on hover. */
+.panel {
+  background: linear-gradient(180deg, var(--nyx-surface-2) 0%, var(--nyx-surface) 100%);
+  border: 1px solid var(--nyx-line);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+}
+
+.panel-title {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--nyx-line);
+}
+
+/* --------------------------------------------------------------------------
+   7. Badges and pills
+   -------------------------------------------------------------------------- */
+.badge {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: rgba(225, 29, 56, 0.14);
+  border: 1px solid rgba(225, 29, 56, 0.42);
+  color: #ff9aa9;
+}
+
+.badge-muted {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--nyx-line);
+  color: var(--text-soft);
+}
+
+/* --------------------------------------------------------------------------
+   8. Forms
+   -------------------------------------------------------------------------- */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px 15px;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid var(--nyx-line);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  transition: border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+
+.form-control::placeholder { color: var(--nyx-gray-dim); }
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--nyx-crimson);
+  box-shadow: 0 0 0 3px rgba(168, 15, 38, 0.22);
+}
+
+/* Applied by Angular when a field is invalid and has been touched. */
+.form-control.is-invalid {
+  border-color: var(--nyx-crimson-bright);
+  box-shadow: 0 0 0 3px rgba(225, 29, 56, 0.16);
+}
+
+select.form-control {
+  appearance: none;
+  /* Custom chevron so the dropdown matches the dark theme. */
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239a97a3' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 13px center;
+  background-size: 17px;
+  padding-right: 42px;
+  cursor: pointer;
+}
+
+select.form-control option {
+  background: var(--nyx-surface-2);
+  color: var(--text);
+}
+
+textarea.form-control {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.form-error {
+  display: block;
+  margin-top: 7px;
+  font-size: 0.8rem;
+  color: #ff7d8f;
+}
+
+.form-hint {
+  display: block;
+  margin-top: 7px;
+  font-size: 0.8rem;
+  color: var(--nyx-gray-dim);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 640px) {
+  .form-row { grid-template-columns: 1fr; }
+}
+
+/* Checkbox / radio rows used on the commission form and checkout. */
+.choice {
+  display: flex;
+  gap: 13px;
+  align-items: flex-start;
+  padding: 14px 16px;
+  border: 1px solid var(--nyx-line);
+  border-radius: var(--radius);
+  background: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: border-color 0.25s var(--ease), background 0.25s var(--ease);
+}
+
+.choice:hover { border-color: rgba(225, 29, 56, 0.5); }
+
+.choice input {
+  margin-top: 4px;
+  accent-color: var(--nyx-crimson-bright);
+  width: 17px;
+  height: 17px;
+  flex: 0 0 auto;
+  cursor: pointer;
+}
+
+.choice-label {
+  font-weight: 600;
+  font-size: 0.94rem;
+  display: block;
+}
+
+.choice-desc {
+  font-size: 0.82rem;
+  color: var(--text-soft);
+  margin: 3px 0 0;
+}
+
+.choice-price {
+  margin-left: auto;
+  font-weight: 600;
+  color: var(--nyx-crimson-bright);
+  white-space: nowrap;
+  font-size: 0.9rem;
+}
+
+/* Selected state is driven by a class the component adds. */
+.choice.selected {
+  border-color: var(--nyx-crimson);
+  background: rgba(168, 15, 38, 0.14);
+}
+
+/* --------------------------------------------------------------------------
+   9. Money rows (cart and checkout summaries)
+   -------------------------------------------------------------------------- */
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 11px 0;
+  border-bottom: 1px dashed var(--nyx-line);
+  font-size: 0.93rem;
+}
+
+.summary-row:last-of-type { border-bottom: 0; }
+
+.summary-row .label { color: var(--text-soft); }
+.summary-row .value { font-weight: 600; }
+
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 14px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(225, 29, 56, 0.4);
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+}
+
+.summary-total .value { color: var(--nyx-crimson-bright); }
+
+/* --------------------------------------------------------------------------
+   10. Alerts and empty states
+   -------------------------------------------------------------------------- */
+.alert {
+  padding: 14px 18px;
+  border-radius: var(--radius);
+  border: 1px solid var(--nyx-line);
+  background: rgba(255, 255, 255, 0.04);
+  margin-bottom: 20px;
+  font-size: 0.92rem;
+}
+
+.alert-error {
+  border-color: rgba(225, 29, 56, 0.5);
+  background: rgba(168, 15, 38, 0.16);
+  color: #ffb3be;
+}
+
+.alert-success {
+  border-color: rgba(80, 200, 130, 0.42);
+  background: rgba(40, 150, 90, 0.14);
+  color: #9ff0c2;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 78px 26px;
+  border: 1px dashed var(--nyx-line);
+  border-radius: var(--radius-lg);
+  background: rgba(0, 0, 0, 0.28);
+}
+
+.empty-state h3 { margin-bottom: 8px; }
+.empty-state p { color: var(--text-soft); margin-bottom: 24px; }
+
+/* --------------------------------------------------------------------------
+   11. Animations
+   -------------------------------------------------------------------------- */
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-up { animation: fadeUp 0.6s var(--ease) both; }
+.fade-up-1 { animation: fadeUp 0.6s 0.08s var(--ease) both; }
+.fade-up-2 { animation: fadeUp 0.6s 0.16s var(--ease) both; }
+.fade-up-3 { animation: fadeUp 0.6s 0.24s var(--ease) both; }
+
+/* Respect users who prefer less motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   12. Breadcrumbs
+   -------------------------------------------------------------------------- */
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  font-size: 0.82rem;
+  color: var(--nyx-gray);
+  margin-bottom: 26px;
+}
+
+.crumbs a:hover { color: var(--nyx-crimson-bright); }
+.crumbs .sep { opacity: 0.5; }
+.crumbs .current { color: var(--nyx-white); }

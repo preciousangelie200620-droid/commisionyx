@@ -1,0 +1,177 @@
+.auth-page {
+  display: flex;
+  align-items: center;
+}
+
+.auth-container {
+  display: grid;
+  grid-template-columns: 1fr 470px;
+  gap: 56px;
+  align-items: center;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Left column: the pitch                                                     */
+/* -------------------------------------------------------------------------- */
+.auth-aside h1 {
+  margin: 14px 0 18px;
+  font-size: clamp(1.8rem, 3.4vw, 2.7rem);
+}
+
+.auth-aside-lead {
+  color: var(--text-soft);
+  line-height: 1.85;
+  margin-bottom: 30px;
+}
+
+.auth-benefits {
+  list-style: none;
+  margin: 0 0 30px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.auth-benefits li {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.benefit-mark {
+  color: var(--nyx-crimson-bright);
+  font-size: 0.85rem;
+  margin-top: 5px;
+  flex: 0 0 auto;
+}
+
+.auth-benefits strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+  margin-bottom: 3px;
+}
+
+.benefit-note {
+  display: block;
+  font-size: 0.87rem;
+  color: var(--text-soft);
+  line-height: 1.65;
+}
+
+.auth-demo-note {
+  padding: 16px 18px;
+  border: 1px solid rgba(225, 29, 56, 0.35);
+  border-radius: var(--radius);
+  background: rgba(168, 15, 38, 0.1);
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: var(--text-soft);
+}
+
+.auth-demo-note strong { color: var(--nyx-crimson-bright); }
+
+/* -------------------------------------------------------------------------- */
+/* Right column: the form card                                                */
+/* -------------------------------------------------------------------------- */
+.auth-card {
+  padding: 32px;
+  background:
+    radial-gradient(420px 200px at 50% 0%, rgba(168, 15, 38, 0.16), transparent 70%),
+    linear-gradient(180deg, var(--nyx-surface-2) 0%, var(--nyx-surface) 100%);
+}
+
+/* Mode switch that looks like a segmented control. */
+.auth-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  padding: 5px;
+  margin-bottom: 26px;
+  border: 1px solid var(--nyx-line);
+  border-radius: var(--radius);
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.switch-btn {
+  padding: 11px 12px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--text-soft);
+  font-family: var(--font-body);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.28s var(--ease);
+}
+
+.switch-btn:hover { color: var(--nyx-white); }
+
+.switch-btn.active {
+  background: linear-gradient(135deg, var(--nyx-crimson) 0%, var(--nyx-crimson-deep) 100%);
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(168, 15, 38, 0.4);
+}
+
+/* Checkbox row */
+.checkbox-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  font-size: 0.87rem;
+  color: var(--text-soft);
+  cursor: pointer;
+  line-height: 1.55;
+}
+
+.checkbox-row input {
+  margin-top: 3px;
+  width: 17px;
+  height: 17px;
+  accent-color: var(--nyx-crimson-bright);
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+/* The cross-field password error sits outside a form-group. */
+.group-error { margin: -10px 0 16px; }
+
+.auth-foot {
+  margin: 20px 0 0;
+  text-align: center;
+  font-size: 0.86rem;
+  color: var(--text-soft);
+}
+
+.link-btn {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--nyx-crimson-bright);
+  font-family: var(--font-body);
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.link-btn:hover { color: #ff5470; }
+
+/* -------------------------------------------------------------------------- */
+/* Responsive                                                                 */
+/* -------------------------------------------------------------------------- */
+@media (max-width: 980px) {
+  .auth-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 520px) {
+  .auth-card { padding: 22px; }
+}

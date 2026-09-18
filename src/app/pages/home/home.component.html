@@ -1,0 +1,188 @@
+<!-- ========================================================================
+     HERO
+     ======================================================================== -->
+<section class="hero">
+  <div class="hero-bg" aria-hidden="true">
+    <img src="assets/img/hero.png" alt="" />
+  </div>
+
+  <div class="container hero-inner">
+    <span class="eyebrow fade-up">Commission Marketplace</span>
+
+    <h1 class="fade-up-1">
+      Turn Your Imagination<br />
+      <span class="hero-accent">Into Art</span>
+    </h1>
+
+    <p class="hero-lead fade-up-2">
+      CommisioNyx connects you with artists who work in the dark, the elegant and the
+      strange. Buy an original piece, or describe the artwork only you can picture and
+      have it made.
+    </p>
+
+    <div class="hero-actions fade-up-3">
+      <a routerLink="/browse" class="btn btn-primary btn-lg">Browse Artwork</a>
+      <a routerLink="/commissions" class="btn btn-outline btn-lg">Request a Commission</a>
+    </div>
+
+    <div class="hero-tags fade-up-3">
+      <span>Portraits</span>
+      <span class="dot">&bull;</span>
+      <span>Anime</span>
+      <span class="dot">&bull;</span>
+      <span>Illustrations</span>
+      <span class="dot">&bull;</span>
+      <span>Fan Art</span>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================================
+     STATS STRIP
+     ======================================================================== -->
+<section class="stats-strip">
+  <div class="container stats-grid">
+    <div class="stat" *ngFor="let item of stats">
+      <span class="stat-value">{{ item.value }}</span>
+      <span class="stat-label">{{ item.label }}</span>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================================
+     FEATURED ARTWORK
+     ======================================================================== -->
+<section class="section">
+  <div class="container">
+
+    <div class="section-head section-head-row">
+      <div>
+        <span class="eyebrow">Featured Pieces</span>
+        <h2>Chosen by the Curator</h2>
+        <p>Four works that best show what the artists on CommisioNyx can do.</p>
+      </div>
+      <a routerLink="/browse" class="btn btn-outline">View All Artwork</a>
+    </div>
+
+    <div class="grid grid-4">
+      <app-artwork-card
+        *ngFor="let artwork of featuredArtworks"
+        [artwork]="artwork"
+        (addToCart)="onAddToCart($event)"
+      ></app-artwork-card>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========================================================================
+     CATEGORIES
+     ======================================================================== -->
+<section class="section categories-section">
+  <div class="container">
+
+    <div class="section-head center">
+      <span class="eyebrow">Browse by Category</span>
+      <h2>Four Ways In</h2>
+      <p>Every listing is sorted into one of four collections.</p>
+    </div>
+
+    <div class="grid grid-4">
+      <a
+        class="category-tile"
+        *ngFor="let category of categories"
+        [routerLink]="['/browse']"
+        [queryParams]="{ category: category }"
+      >
+        <span class="category-name">{{ category }}</span>
+        <span class="category-blurb">{{ categoryBlurbs[category] }}</span>
+        <span class="category-arrow" aria-hidden="true">&rarr;</span>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========================================================================
+     HOW IT WORKS
+     ======================================================================== -->
+<section class="section how-section">
+  <div class="container">
+
+    <div class="section-head center">
+      <span class="eyebrow">How It Works</span>
+      <h2>From Idea to Framed</h2>
+      <p>Three steps, no guesswork, and a price you can see before you commit.</p>
+    </div>
+
+    <div class="grid grid-3">
+      <div class="step" *ngFor="let step of steps">
+        <span class="step-number">{{ step.number }}</span>
+        <h3>{{ step.title }}</h3>
+        <p>{{ step.text }}</p>
+      </div>
+    </div>
+
+    <div class="how-cta">
+      <a routerLink="/commissions" class="btn btn-primary btn-lg">Start a Commission</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========================================================================
+     ARTISTS PREVIEW
+     ======================================================================== -->
+<section class="section artists-section">
+  <div class="container">
+
+    <div class="section-head section-head-row">
+      <div>
+        <span class="eyebrow">The Artists</span>
+        <h2>Who You Will Be Working With</h2>
+        <p>Dark fantasy portraitists, anime illustrators and horror concept artists.</p>
+      </div>
+      <a routerLink="/artists" class="btn btn-outline">Meet Every Artist</a>
+    </div>
+
+    <div class="grid grid-3">
+      <article class="artist-mini" *ngFor="let artist of artists">
+        <img class="artist-mini-avatar" [src]="artist.avatar" [alt]="artist.name" loading="lazy" />
+        <h3 class="artist-mini-name">{{ artist.name }}</h3>
+        <p class="artist-mini-bio">{{ artist.bio }}</p>
+
+        <div class="artist-mini-tags">
+          <span class="badge badge-muted" *ngFor="let tag of artist.specialties">{{ tag }}</span>
+        </div>
+
+        <div class="artist-mini-foot">
+          <span class="artist-mini-stat">
+            <strong>{{ artist.rating.toFixed(1) }}</strong> rating
+          </span>
+          <span class="artist-mini-stat">
+            <strong>{{ artist.completedCommissions }}</strong> completed
+          </span>
+        </div>
+      </article>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========================================================================
+     CLOSING BANNER
+     ======================================================================== -->
+<section class="closing">
+  <div class="container closing-inner">
+    <span class="eyebrow">Ready When You Are</span>
+    <h2>Your Idea Is Already Half the Artwork</h2>
+    <p>
+      Tell an artist what you want to see, and watch it come back as something you can
+      actually hang on a wall.
+    </p>
+    <div class="closing-actions">
+      <a routerLink="/commissions" class="btn btn-primary btn-lg">Request a Commission</a>
+      <a routerLink="/browse" class="btn btn-outline btn-lg">Browse Artwork</a>
+    </div>
+  </div>
+</section>
